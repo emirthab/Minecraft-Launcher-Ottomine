@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="User Data Source - jdbc:firebirdsql:http://28da0cb82cfe.ngrok.io" uuid="4535c60e-c066-4786-8868-c6e132773981">
+      <driver-ref>0c937463-499e-43f9-af3d-1c142d254b15</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.firebirdsql.jdbc.FBDriver</jdbc-driver>
+      <jdbc-url>jdbc:firebirdsql:http://28da0cb82cfe.ngrok.io</jdbc-url>
+    </data-source>
+  </component>
+</project>
