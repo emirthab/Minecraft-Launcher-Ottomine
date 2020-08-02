@@ -1,6 +1,5 @@
 package launcher;
 
-import com.sun.org.apache.xerces.internal.xs.StringList;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -70,12 +69,10 @@ public class LauncherController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         if (WriterData.libraries.isEmpty()) {
-            System.out.println("girdi");
             thread = new Thread(() -> {
                 try {
                     GetJsonWeb();
                     OperationLister();
-                    System.out.println("bitti");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -84,7 +81,8 @@ public class LauncherController implements Initializable {
             thread.start();
         }
 
-        System.out.println(getLibraries());
+        readJson_libraries_downloads_classifiers_natives_Y("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
+        readJson_twitch_natives("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
 
         discord_logo.setOnMouseReleased((event) -> {
             openBrowserUrl("https://discord.gg/U2MkdfC");
@@ -134,6 +132,8 @@ public class LauncherController implements Initializable {
     public void launchGame() throws InterruptedException {
         if (thread != null) thread.join();
         try {
+            System.out.println(version_path_list_natives);
+
             File librarydir = new File("libraries" + File.separator);
             ArrayList<String> names = new ArrayList<>(Arrays.asList(Objects.requireNonNull(librarydir.list())));
             names.replaceAll(s -> librarydir.getPath() + "\\" + s);
@@ -451,14 +451,23 @@ public class LauncherController implements Initializable {
         }
     }
 
-    public void readJson_twitch_natives_Windows(String path) {
+    public void readJson_twitch_natives(String path) {
         try {
-            boolean is64bit = System.getProperty("sun.arch.data.model").contains("64");
-            String natives_OS = "natives-windows-" + (is64bit ? "64" : "32");
+
+            String natives_OS;
+            if (getOS().equals("Linux")) {
+                natives_OS = "linux";
+            } else if (getOS().equals("Windows")) {
+                natives_OS = "windows";
+            } else if (getOS().equals("Mac")) {
+                natives_OS =  "osx";
+            } else {
+                natives_OS = "N/A";
+            }
             String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
 
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-            String script_js = "var getJsonLibrariesDownloadsClassifiersNativesX=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].url+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesY=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].path+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesZ=function(r){var s=r,a=JSON.parse(s),e=\"\",n=0;for(i=0;i<500;i++)try{a.libraries[n].natives?(e=e+a.libraries[n].name+\"\\n\",n+=1):n+=1}catch(t){n+=1}return e};";
+            String script_js = "var getJsonLibrariesDownloadsClassifiersNativesX=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].classifies[s].url+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesY=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].classifies[s].path+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesZ=function(r){var s=r,a=JSON.parse(s),e=\"\",n=0;for(i=0;i<500;i++)try{a.libraries[n].natives?(e=e+a.libraries[n].name+\"\\n\",n+=1):n+=1}catch(t){n+=1}return e};";
 
             engine.eval(script_js);
 
@@ -468,6 +477,51 @@ public class LauncherController implements Initializable {
 
             for (String retval : result.toString().split("\n")) {
                 if (!retval.isEmpty()) version_path_list_natives.add(retval);
+            }
+        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void readJson_libraries_downloads_classifiers_natives_Y(String path) {
+
+        try {
+            String natives_OS;
+            if (getOS().equals("Linux")) {
+                natives_OS = "linux";
+            } else if (getOS().equals("Windows")) {
+                natives_OS = "windows";
+            } else if (getOS().equals("Mac")) {
+                natives_OS =  "osx";
+            } else {
+                natives_OS = "N/A";
+            }
+            String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
+            ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+            try {
+
+                String script_js = "var getJsonLibrariesDownloadsClassifiersNativesX=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].url+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesY=function(s,r){var a=JSON.parse(s),e=\"\",t=0;for(i=0;i<a.libraries.length+1;i++)try{e+=a.libraries[t].classifies[\"windows\"].path + \"\\n\",t+=1}catch(i){t+=1}return e},getJsonLibrariesDownloadsClassifiersNativesZ=function(r){var s=r,a=JSON.parse(s),e=\"\",n=0;for(i=0;i<500;i++)try{a.libraries[n].natives?(e=e+a.libraries[n].classifies +\"\\n\",n+=1):n+=1}catch(t){n+=1}return e};";
+
+                File file = new File("./.script.js");
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(script_js);
+                bw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            engine.eval(new FileReader("./.script.js"));
+
+            Invocable invocable = (Invocable) engine;
+
+            Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesY", content, natives_OS);
+
+            System.out.println(result.toString());
+
+            for (String retval : result.toString().split("\n")) {
+                version_path_list_natives.add(retval);
             }
         } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
             ex.printStackTrace();
