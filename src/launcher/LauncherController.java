@@ -132,7 +132,6 @@ public class LauncherController implements Initializable {
     public void launchGame() throws InterruptedException {
         if (thread != null) thread.join();
         try {
-            System.out.println(version_path_list_natives);
 
             File librarydir = new File("libraries" + File.separator);
             ArrayList<String> names = new ArrayList<>(Arrays.asList(Objects.requireNonNull(librarydir.list())));
@@ -164,11 +163,7 @@ public class LauncherController implements Initializable {
 
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
 
-            String str = "";
-            for (String finalArg : finalArgs) {
-                str += finalArg + " ";
-            }
-            System.out.println(str);
+
             try {
                 proc = Runtime.getRuntime().exec(finalArgs);
             } catch (IOException e) {
@@ -517,8 +512,6 @@ public class LauncherController implements Initializable {
             Invocable invocable = (Invocable) engine;
 
             Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesY", content, natives_OS);
-
-            System.out.println(result.toString());
 
             for (String retval : result.toString().split("\n")) {
                 version_path_list_natives.add(retval);
