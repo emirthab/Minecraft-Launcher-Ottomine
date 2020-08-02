@@ -25,7 +25,7 @@ public class DownloaderScript {
         RunnerScript.runNetControl();
         String dirWeb = "https://ottomine.net/ottomine-files/";
         try (BufferedInputStream inputStream = new BufferedInputStream(new URL(dirWeb + CurrentJSONpath).openStream());
-             FileOutputStream fileOS = new FileOutputStream("../" + CurrentJSONpath)) {
+             FileOutputStream fileOS = new FileOutputStream(CurrentJSONpath)) {
             byte data[] = new byte[1024];
             int byteContent;
             while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {

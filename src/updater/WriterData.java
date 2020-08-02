@@ -64,15 +64,15 @@ public class WriterData {
             String CurrentJSONpath = (String) CurrentJSONobject.get("path");
             String CurrentJSONtype = (String) CurrentJSONobject.get("type");
             int CurrentJSONsize = (int) CurrentJSONobject.get("size");
-            File CurrentFile = new File("../" + CurrentJSONpath);
+            File CurrentFile = new File(CurrentJSONpath);
             int CurrentFileSize = (int) CurrentFile.length();
 
             if (CurrentJSONtype.equals("file")) {
                 if (CurrentJSONpath.startsWith("libraries")) {
-                    libraries.add(CurrentJSONpath.substring("libraries/".length() - 1));
+                    libraries.add(CurrentJSONpath);
                 }
                 if (CurrentJSONpath.startsWith("mods")) {
-                    libraries.add(CurrentJSONpath.substring("mods/".length() - 1));
+                    libraries.add(CurrentJSONpath);
                 }
                 if (CurrentFile.exists()) {
                     if (CurrentJSONsize != CurrentFileSize) {

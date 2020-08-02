@@ -14,7 +14,7 @@ public class ReaderData {
         for (int i = 0; i < ƒ.getArrayNonFolders().length(); i++) {
             JSONObject CurrentNonFolderArray = (JSONObject) ƒ.getArrayNonFolders().get(i);
             String CurrentJSONpath = (String) CurrentNonFolderArray.get("path");
-            File CurrentFile = new File("../" + CurrentJSONpath);
+            File CurrentFile = new File(CurrentJSONpath);
             CurrentFile.mkdir();
         }
         }

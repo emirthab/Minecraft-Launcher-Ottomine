@@ -16,6 +16,10 @@ import org.json.JSONObject;
 import updater.NetworkControl;
 import updater.WriterData;
 
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
@@ -42,6 +46,8 @@ public class LauncherController implements Initializable {
     private JSONArray FilesArray;
     private final List<String> libraries = new ArrayList<>();
     private Process proc = null;
+    List version_path_list_natives = new ArrayList();
+
 
     public static void openBrowserUrl(String url) {
         if (Desktop.isDesktopSupported()) {
@@ -64,10 +70,12 @@ public class LauncherController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         if (WriterData.libraries.isEmpty()) {
+            System.out.println("girdi");
             thread = new Thread(() -> {
                 try {
                     GetJsonWeb();
                     OperationLister();
+                    System.out.println("bitti");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -75,6 +83,8 @@ public class LauncherController implements Initializable {
 
             thread.start();
         }
+
+        System.out.println(getLibraries());
 
         discord_logo.setOnMouseReleased((event) -> {
             openBrowserUrl("https://discord.gg/U2MkdfC");
@@ -145,7 +155,7 @@ public class LauncherController implements Initializable {
             String MinecraftJar = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.jar";
             String FullLibraryArgument = generateLibrariesArguments(OperatingSystemToUse) + getArgsDiv(OperatingSystemToUse) + MinecraftJar;
             String mainClass = "net.minecraft.launchwrapper.Launch";
-            String NativesDir = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "natives";
+            String NativesDir = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "natives" + File.separator;
 
             String[] cmds = {"-Xmx" + Xmx + "M", "-XX:+UseConcMarkSweepGC", "-XX:+CMSIncrementalMode", "-XX:-UseAdaptiveSizePolicy", "-Xmn128M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
 
@@ -154,6 +164,11 @@ public class LauncherController implements Initializable {
 
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
 
+            String str = "";
+            for (String finalArg : finalArgs) {
+                str += finalArg + " ";
+            }
+            System.out.println(str);
             try {
                 proc = Runtime.getRuntime().exec(finalArgs);
             } catch (IOException e) {
@@ -186,10 +201,12 @@ public class LauncherController implements Initializable {
         }
     }
 
+    /***** Util Methods  *****/
+
     String generateLibrariesArguments(String OS) {
         StringBuilder cp = new StringBuilder();
 
-        List<String> list = new ArrayList<>(libraries);
+        List<String> list = new ArrayList<>(getLibraries());
 
         List<String> sorted = new ArrayList<>(list);
 
@@ -225,7 +242,7 @@ public class LauncherController implements Initializable {
 
     String[] generateMinecraftArguments(String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type, String game_assets, String auth_session) {
 
-        String cmdArgs = readJson_minecraftArguments(getMineCraft_Versions_X_X_json(version_name));
+        String cmdArgs = readJson_minecraftArguments("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
 
         cmdArgs = cmdArgs.replaceAll(" +", " ");
         String[] tempArgsSplit = cmdArgs.split(" ");
@@ -272,19 +289,19 @@ public class LauncherController implements Initializable {
 
     private String readJson_minecraftArguments(String path) {
         try {
-            FileReader reader = new FileReader(path);
-            JSONObject jsonObject = new JSONObject(reader);
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            String line;
+            StringBuilder json = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                json.append(line).append('\n');
+            }
+            JSONObject jsonObject = new JSONObject(json.toString());
 
             return jsonObject.getString("minecraftArguments");
-
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return "N/A";
-    }
-
-    private String getMineCraft_Versions_X_X_json(String VersionNumber) {
-        return ("versions" + File.separator + VersionNumber + File.separator + VersionNumber + ".json");
     }
 
     private String getOS() {
@@ -342,16 +359,125 @@ public class LauncherController implements Initializable {
 
             if (CurrentJSONtype.equals("file")) {
                 if (CurrentJSONpath.startsWith("libraries")) {
-                    libraries.add(CurrentJSONpath.substring("libraries/".length() - 1));
+                    libraries.add(CurrentJSONpath);
                 }
                 if (CurrentJSONpath.startsWith("mods")) {
-                    libraries.add(CurrentJSONpath.substring("mods/".length() - 1));
+                    libraries.add(CurrentJSONpath);
                 }
             }
         }
     }
 
+    List versionCheck() {
+        List list = new ArrayList<String>();
+        list.addAll(version_path_list_natives);
+
+        List removeList = new ArrayList<String>();
+
+        Collections.sort(list, (a, b)-> {
+            if (a == null || b == null) return 0;
+            File aFile = new File((String) a);
+            File bFile = new File((String) b);
+            String aname = aFile.getName();
+            if (aname.isEmpty()) return 0;
+            String aremoved = aname.substring(0, aname.lastIndexOf('.'));
+            String bname = bFile.getName();
+            if (bname.isEmpty()) return 0;
+            String bremoved = bname.substring(0, bname.lastIndexOf('.'));
+            for (String str : aremoved.split("-")) {
+                if (isInteger(str)) {
+                    if (Integer.parseInt(str) > 1000) {
+                        aremoved = aremoved.replaceAll("-" + str, "");
+                    }
+                }
+            }
+            for (String str : bremoved.split("-")) {
+                if (isInteger(str)) {
+                    if (Integer.parseInt(str) > 1000) {
+                        bremoved = bremoved.replaceAll("-" + str, "");
+                    }
+                }
+            }
+            int versiona = Integer.parseInt(aremoved.replaceAll("[\\D]", ""));
+            int versionB = Integer.parseInt(bremoved.replaceAll("[\\D]", ""));
+            String formattedvera = aremoved.replaceAll(getNatives_OS(getOS()), "").replaceAll("[A-Za-z]?", "").replaceAll("-", "");
+            String formattedverb = bremoved.replaceAll(getNatives_OS(getOS()), "").replaceAll("[A-Za-z]?", "").replaceAll("-", "");
+            if (!aname.replaceAll(getNatives_OS(getOS()), "").replaceAll(formattedvera, "").equals(
+                    bname.replaceAll(getNatives_OS(getOS()), "").replaceAll(formattedverb, ""))) return 0;
+            if (versiona == versionB) return 0;
+            if (versiona > versionB){
+                if (!removeList.contains(b)) {
+                    removeList.add(b);
+                }
+                return 1;
+            }
+            if (versiona < versionB) {
+                if (!removeList.contains(a)) removeList.add(a);
+                return -1;
+            }
+            return 0;
+        });
+
+        List sortedList = list;
+        sortedList.removeAll(removeList);
+
+        return sortedList;
+    }
+
+    String getNatives_OS(String natives_OS) {
+        try {
+            if (natives_OS.equals("Linux")) {
+                return natives_OS.replace("Linux", "natives-linux");
+            } else if (natives_OS.equals("Windows")) {
+                return natives_OS.replace("Windows", "natives-windows");
+            } else if (natives_OS.equals("Mac")) {
+                return natives_OS.replace("Mac", "natives-osx");
+            } else {
+                return "N/A";
+                //I DON'T KNOW THIS OS!
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return "N/A";
+        }
+    }
+
+    boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        }catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public void readJson_twitch_natives_Windows(String path) {
+        try {
+            boolean is64bit = System.getProperty("sun.arch.data.model").contains("64");
+            String natives_OS = "natives-windows-" + (is64bit ? "64" : "32");
+            String content = new Scanner(new File(path)).useDelimiter("\\Z").next();
+
+            ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+            String script_js = "var getJsonLibrariesDownloadsClassifiersNativesX=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].url+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesY=function(r,s){var a=r,e=JSON.parse(a),n=\"\",t=0;for(i=0;i<500;i++)try{n=n+e.libraries[t].downloads.classifiers[s].path+\"\\n\",t+=1}catch(o){t+=1}return n},getJsonLibrariesDownloadsClassifiersNativesZ=function(r){var s=r,a=JSON.parse(s),e=\"\",n=0;for(i=0;i<500;i++)try{a.libraries[n].natives?(e=e+a.libraries[n].name+\"\\n\",n+=1):n+=1}catch(t){n+=1}return e};";
+
+            engine.eval(script_js);
+
+            Invocable invocable = (Invocable) engine;
+
+            Object result = invocable.invokeFunction("getJsonLibrariesDownloadsClassifiersNativesY", content, natives_OS);
+
+            for (String retval : result.toString().split("\n")) {
+                if (!retval.isEmpty()) version_path_list_natives.add(retval);
+            }
+        } catch (FileNotFoundException | ScriptException | NoSuchMethodException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /***** Util Methods  *****/
+
     /***** FADES   *****/
+
     public void fadeIn(ImageView current_fading) {
         current_fading.setOnMouseEntered((event) -> {
             if (current_fading == play_button) {
