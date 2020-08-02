@@ -48,7 +48,7 @@
                                     <Image url="@../resources/launcher_res/main/input/input_back.png" />
                                  </image>
                               </ImageView>
-                              <TextField editable="false" layoutX="79.0" layoutY="11.0" style="-fx-text-inner-color: #2b0e01; -fx-background-color: 0;" text="Kullanıcı adı giriniz...">
+                              <TextField editable="true" layoutX="79.0" layoutY="11.0" style="-fx-text-inner-color: #2b0e01; -fx-background-color: 0;" text="Kullanıcı adı giriniz...">
                                  <font>
                                     <Font name="Metamorphous" size="13.0" />
                                  </font>

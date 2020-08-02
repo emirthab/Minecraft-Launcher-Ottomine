@@ -13,7 +13,7 @@ public class UpdaterMain extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
+        startUpdaterStage();
     }
     public static void main(String[] args){
         RunnerScript.threader();

@@ -8,7 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class LauncherUpdater {
-    public static void DownloadOperation() throws IOException, InterruptedException {
+    public static void DownloadOperation() throws InterruptedException {
         RunnerScript.runNetControl();
         String dirWeb = "https://ottomine.net/Launcher/";
         try (BufferedInputStream inputStream = new BufferedInputStream(new URL(dirWeb + "Ottomine-Launcher.jar").openStream());

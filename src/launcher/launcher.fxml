@@ -48,7 +48,7 @@
                                     <Image url="@../resources/launcher_res/main/input/input_back.png" />
                                  </image>
                               </ImageView>
-                              <TextField editable="false" layoutX="79.0" layoutY="11.0" style="-fx-text-inner-color: #2b0e01; -fx-background-color: 0;" text="Kullanıcı adı giriniz...">
+                              <TextField editable="true" layoutX="79.0" layoutY="11.0" style="-fx-text-inner-color: #2b0e01; -fx-background-color: 0;" text="Kullanıcı adı giriniz...">
                                  <font>
                                     <Font name="Metamorphous" size="13.0" />
                                  </font>
@@ -57,7 +57,7 @@
                         </AnchorPane>
                         <AnchorPane layoutY="142.0" prefHeight="63.0" prefWidth="355.0">
                            <children>
-                              <ImageView fx:id="play_button" fitHeight="113.0" fitWidth="264.0" layoutX="46.0" layoutY="7.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="play_button" fitHeight="113.0" onMouseReleased="#launchGame" fitWidth="264.0" layoutX="46.0" layoutY="7.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/launcher_res/main/play.png" />
                                  </image>
