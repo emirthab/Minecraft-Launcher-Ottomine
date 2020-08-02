@@ -15,6 +15,8 @@ import java.io.IOException;
 public class LauncherMain extends Application{
     public static Stage primaryStage2 = new Stage();
 
+    private static final LauncherMain instance = new LauncherMain();
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         startLauncherStage();
@@ -28,5 +30,9 @@ public class LauncherMain extends Application{
         primaryStage2.setScene(new Scene(root2, 475, 650));
         primaryStage2.initStyle(StageStyle.TRANSPARENT);
         primaryStage2.show();
+    }
+
+    public static LauncherMain getInstance() {
+        return instance;
     }
 }

@@ -57,23 +57,19 @@ public class RunnerScript extends Thread {
             TextStatus = 3;
             Thread.sleep(300);//100den büyük thread zorunlu
             TextStatus = 4;
-            System.out.println(TextStatus);
             Runner.runReader();
             TextStatus = 5;
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    UpdaterMain.stopUpdaterStage();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        LauncherMain.startLauncherStage();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            Platform.runLater(() -> {
+                UpdaterMain.stopUpdaterStage();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    LauncherMain.startLauncherStage();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
         }else{
