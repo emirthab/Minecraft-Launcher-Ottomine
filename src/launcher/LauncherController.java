@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class LauncherController implements Initializable {
+    private final List<String> libraries = new ArrayList<>();
     @FXML
     public ImageView remind_tick;
     public MediaView background_video;
@@ -39,14 +40,12 @@ public class LauncherController implements Initializable {
     public ImageView bar_under;
     public ImageView company_logo;
     public ImageView discord_logo;
+    List<String> version_path_list_natives = new ArrayList<>();
     private Media me;
     private MediaPlayer mp;
     private Thread thread;
     private JSONArray FilesArray;
-    private final List<String> libraries = new ArrayList<>();
     private Process proc = null;
-    List version_path_list_natives = new ArrayList();
-
 
     public static void openBrowserUrl(String url) {
         if (Desktop.isDesktopSupported()) {
@@ -83,6 +82,7 @@ public class LauncherController implements Initializable {
 
         readJson_libraries_downloads_classifiers_natives_Y("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
         readJson_twitch_natives("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
+
 
         discord_logo.setOnMouseReleased((event) -> {
             openBrowserUrl("https://discord.gg/U2MkdfC");
@@ -132,19 +132,16 @@ public class LauncherController implements Initializable {
     public void launchGame() throws InterruptedException {
         if (thread != null) thread.join();
         try {
-
-            File librarydir = new File("libraries" + File.separator);
-            ArrayList<String> names = new ArrayList<>(Arrays.asList(Objects.requireNonNull(librarydir.list())));
-            names.replaceAll(s -> librarydir.getPath() + "\\" + s);
+            String NativesDir = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "natives" + File.separator;
 
             String OperatingSystemToUse = getOS();
-            String gameDirectory = "";
+            String gameDirectory = new File(LauncherController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().toString();
             String AssetsRoot = "assets";
 
-            int Xmx = 1024;
+            int Xmx = 2048;
             String JavaPath = "java";
             String versionName = "1.12.2-LiteLoader1.12.2-1.12.2-forge1.12.2-14.23.5.2847";
-            String assetsIndexId = "1.12.2-LiteLoader1.12.2-1.12.2-forge1.12.2-14.23.5.2847";
+            String assetsIndexId = "1.12";
 
             String VersionType = "release";
             String GameAssets = "assets";
@@ -154,15 +151,13 @@ public class LauncherController implements Initializable {
             String MinecraftJar = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.jar";
             String FullLibraryArgument = generateLibrariesArguments(OperatingSystemToUse) + getArgsDiv(OperatingSystemToUse) + MinecraftJar;
             String mainClass = "net.minecraft.launchwrapper.Launch";
-            String NativesDir = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "natives" + File.separator;
 
-            String[] cmds = {"-Xmx" + Xmx + "M", "-XX:+UseConcMarkSweepGC", "-XX:+CMSIncrementalMode", "-XX:-UseAdaptiveSizePolicy", "-Xmn128M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+            String[] cmds = {"-Xmx" + Xmx + "M", "-XX:+UseConcMarkSweepGC", "-XX:-UseAdaptiveSizePolicy", "-Xmn128M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
 
             String[] javaPathArr = {JavaPath};
             cmds = Stream.concat(Arrays.stream(javaPathArr), Arrays.stream(cmds)).toArray(String[]::new);
 
             String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
-
 
             try {
                 proc = Runtime.getRuntime().exec(finalArgs);
@@ -331,7 +326,7 @@ public class LauncherController implements Initializable {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             StringBuilder JsonStringBuilder = new StringBuilder();
             while ((JSON_string = reader.readLine()) != null) {
-                JsonStringBuilder.append(JSON_string + '\n');
+                JsonStringBuilder.append(JSON_string).append('\n');
             }
             FilesArray = new JSONArray(JsonStringBuilder.toString());
             reader.close();
@@ -363,16 +358,15 @@ public class LauncherController implements Initializable {
         }
     }
 
-    List versionCheck() {
-        List list = new ArrayList<String>();
-        list.addAll(version_path_list_natives);
+    List<String> versionCheck() {
+        List<String> list = new ArrayList<>(version_path_list_natives);
 
-        List removeList = new ArrayList<String>();
+        List<String> removeList = new ArrayList<>();
 
-        Collections.sort(list, (a, b)-> {
+        Collections.sort(list, (a, b) -> {
             if (a == null || b == null) return 0;
-            File aFile = new File((String) a);
-            File bFile = new File((String) b);
+            File aFile = new File(a);
+            File bFile = new File(b);
             String aname = aFile.getName();
             if (aname.isEmpty()) return 0;
             String aremoved = aname.substring(0, aname.lastIndexOf('.'));
@@ -400,7 +394,7 @@ public class LauncherController implements Initializable {
             if (!aname.replaceAll(getNatives_OS(getOS()), "").replaceAll(formattedvera, "").equals(
                     bname.replaceAll(getNatives_OS(getOS()), "").replaceAll(formattedverb, ""))) return 0;
             if (versiona == versionB) return 0;
-            if (versiona > versionB){
+            if (versiona > versionB) {
                 if (!removeList.contains(b)) {
                     removeList.add(b);
                 }
@@ -413,7 +407,7 @@ public class LauncherController implements Initializable {
             return 0;
         });
 
-        List sortedList = list;
+        List<String> sortedList = list;
         sortedList.removeAll(removeList);
 
         return sortedList;
@@ -429,9 +423,8 @@ public class LauncherController implements Initializable {
                 return natives_OS.replace("Mac", "natives-osx");
             } else {
                 return "N/A";
-                //I DON'T KNOW THIS OS!
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return "N/A";
         }
@@ -441,7 +434,7 @@ public class LauncherController implements Initializable {
         try {
             Integer.parseInt(input);
             return true;
-        }catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
@@ -455,7 +448,7 @@ public class LauncherController implements Initializable {
             } else if (getOS().equals("Windows")) {
                 natives_OS = "windows";
             } else if (getOS().equals("Mac")) {
-                natives_OS =  "osx";
+                natives_OS = "osx";
             } else {
                 natives_OS = "N/A";
             }
@@ -487,7 +480,7 @@ public class LauncherController implements Initializable {
             } else if (getOS().equals("Windows")) {
                 natives_OS = "windows";
             } else if (getOS().equals("Mac")) {
-                natives_OS =  "osx";
+                natives_OS = "osx";
             } else {
                 natives_OS = "N/A";
             }
