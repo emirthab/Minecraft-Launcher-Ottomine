@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,7 +22,7 @@ public class UpdaterMain extends Application{
     public static void startUpdaterStage()throws IOException {
         Parent root = FXMLLoader.load(UpdaterMain.class.getResource("updater_scene.fxml"));
         primaryStage.setTitle("Ottomine Launcher");
-        primaryStage.setScene(new Scene(root, 600, 373));
+        primaryStage.setScene(new Scene(root, 800, 350, Color.TRANSPARENT));
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }

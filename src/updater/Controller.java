@@ -39,13 +39,13 @@ public class Controller implements Initializable {
                     Rs.getTextStatus();
                     checker_text.setImage(check_status);
                     if (Rs.getTextStatus() == 1) {
-                        check_status = new Image("resources/updater_png/main/Network_check.png");
+                        check_status = new Image("resources/updater_res/Network_check.png");
                     }
                     if (Rs.getTextStatus() == 2) {
-                        check_status = new Image("resources/updater_png/main/Update_check.png");
+                        check_status = new Image("resources/updater_res/Update_check.png");
                     }
                     if (Rs.getTextStatus() == 3) {
-                        check_status = new Image("resources/updater_png/main/Update_downloading.png");
+                        check_status = new Image("resources/updater_res/Update_downloading.png");
                     }
                     try {
                         Thread.sleep(100);

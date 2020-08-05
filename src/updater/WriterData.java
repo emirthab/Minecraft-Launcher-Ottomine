@@ -138,6 +138,7 @@ public class WriterData {
 
     }
 }
+//todo bağlantı yoksa direkt launcher ekranına gidiyor o çözülecek
 
 
 

@@ -3,51 +3,41 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="updater.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="800.0" style="-fx-background-color: 0;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="updater.Controller">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
-         <center>
-            <AnchorPane prefHeight="357.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="357.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/updater_png/main/launcher_updater_back.png" />
-                     </image>
-                  </ImageView>
-                  <AnchorPane layoutX="88.0" layoutY="298.0" prefHeight="45.0" prefWidth="424.0">
-                     <children>
-                        <ImageView fx:id="checker_text" fitHeight="24.0" fitWidth="424.0" layoutX="24.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/updater_png/main/Network_check.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutY="263.0" prefHeight="46.0" prefWidth="600.0">
-                     <children>
-                        <Text fx:id="download_status" fill="WHITE" layoutX="1.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="600.0" />
-                        <Text fx:id="downloading_file" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="599.9999913573265" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
-         </center>
-         <bottom>
-            <AnchorPane prefHeight="24.0" prefWidth="687.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="19.0" fitWidth="600.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/updater_png/main/loading_bar_top.png" />
-                     </image>
-                  </ImageView>
-                  <Pane fx:id="Progress_Black" nodeOrientation="RIGHT_TO_LEFT" prefHeight="17.0" prefWidth="600.0" style="-fx-background-color: black;" AnchorPane.rightAnchor="0.0" />
-               </children>
-            </AnchorPane>
-         </bottom>
-      </BorderPane>
+      <ImageView fitHeight="282.0" fitWidth="800.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/updater_res/updater_back.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutY="261.0" prefHeight="54.0" prefWidth="800.0">
+         <children>
+            <ImageView fitHeight="124.0" fitWidth="685.0" layoutX="60.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/updater_res/loading_bar_top.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="Progress_Black" layoutX="170.0" layoutY="16.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="13.0" prefWidth="465.0" style="-fx-background-color: black;" AnchorPane.rightAnchor="165.0" />
+            <Text fx:id="downloading_file" fill="WHITE" layoutX="171.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="369.99998569488525">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="download_status" fill="WHITE" layoutX="551.0" layoutY="28.0" nodeOrientation="RIGHT_TO_LEFT" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="79.9248046875">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="checker_text" fitHeight="37.0" fitWidth="314.0" layoutX="243.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/updater_res/Network_check.png" />
+         </image>
+      </ImageView>
    </children>
-</Pane>
+</AnchorPane>

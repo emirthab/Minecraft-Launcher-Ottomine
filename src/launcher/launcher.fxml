@@ -1,72 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="650.0" prefWidth="476.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="launcher.LauncherController">
+<AnchorPane prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="launcher.LauncherController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-      <MediaView fx:id="background_video" fitHeight="650.0" fitWidth="476.0" nodeOrientation="INHERIT" />
-      <AnchorPane layoutY="307.0" prefHeight="266.0" prefWidth="476.0">
+      <MediaView fx:id="background_video" fitHeight="650.0" fitWidth="1156.0" nodeOrientation="INHERIT" />
+      <AnchorPane prefHeight="186.0" prefWidth="1156.0">
+         <children>
+            <AnchorPane prefHeight="50.0" prefWidth="476.0" />
+            <ImageView fitHeight="159.0" fitWidth="355.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/launcher_res/main/ottominerptext.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="bar_close" fitHeight="37.0" fitWidth="37.0" layoutX="1096.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/launcher_res/topbar/close.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="bar_under" fitHeight="6.0" fitWidth="37.0" layoutX="1025.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/launcher_res/topbar/under.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="218.0" fitWidth="234.0" layoutX="469.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/launcher_res/main/ottomine-logo.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="warning_text" fill="RED" layoutX="321.0" layoutY="30.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kullanıcı adınız maksimum 16 minimum 3 karakter uzunluğunda olmalı." textAlignment="CENTER" wrappingWidth="513.2060546875">
+               <font>
+                  <Font name="Arial Black" size="17.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="340.0" layoutY="291.0" prefHeight="266.0" prefWidth="476.0">
          <children>
             <AnchorPane layoutX="61.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane layoutX="-42.0" layoutY="-22.0" prefHeight="328.0" prefWidth="378.0">
                      <children>
-                        <ImageView fitHeight="285.0" fitWidth="355.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="328.0" fitWidth="440.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/launcher_res/main/back_flag.png" />
                            </image>
                         </ImageView>
-                        <AnchorPane layoutY="100.0" prefHeight="37.0" prefWidth="355.0">
+                        <AnchorPane layoutY="108.0" prefHeight="37.0" prefWidth="440.0">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="182.0" layoutX="110.0" layoutY="9.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="182.0" layoutX="146.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/launcher_res/main/remind/remindname.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="remind_check" fitHeight="26.0" fitWidth="22.0" layoutX="71.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="remind_check" fitHeight="26.0" fitWidth="22.0" layoutX="98.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/launcher_res/main/remind/remind_block.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="remind_tick" fitHeight="22.0" fitWidth="15.0" layoutX="75.0" layoutY="11.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="remind_tick" fitHeight="22.0" fitWidth="15.0" layoutX="102.0" layoutY="12.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/launcher_res/main/remind/remind_block_point.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutY="51.0" prefHeight="19.0" prefWidth="355.0">
+                        <AnchorPane layoutY="51.0" prefHeight="51.0" prefWidth="440.0">
                            <children>
-                              <ImageView fx:id="input_name" fitHeight="42.0" fitWidth="218.0" layoutX="69.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="44.0" fitWidth="253.0" layoutX="94.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/launcher_res/main/input/input_back.png" />
                                  </image>
                               </ImageView>
-                              <TextField editable="true" layoutX="79.0" layoutY="11.0" style="-fx-text-inner-color: #2b0e01; -fx-background-color: #000000;" text="Kullanıcı adı giriniz...">
+                              <TextField fx:id="input_name" editable="true" focusTraversable="false" layoutX="102.0" layoutY="21.0" style="-fx-text-inner-color: #2b0e01; -fx-background-color: transparent;" text="Kullanıcı adı giriniz...">
                                  <font>
                                     <Font name="Metamorphous" size="13.0" />
                                  </font>
                               </TextField>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutY="142.0" prefHeight="63.0" prefWidth="355.0">
+                        <AnchorPane layoutY="164.0" prefHeight="63.0" prefWidth="440.0">
                            <children>
-                              <ImageView fx:id="play_button" fitHeight="113.0" onMouseReleased="#launchGame" fitWidth="264.0" layoutX="46.0" layoutY="7.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="play_button" fitHeight="63.0" fitWidth="295.0" layoutX="73.0" layoutY="4.0" onMouseReleased="#launchGame" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/launcher_res/main/play.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutY="213.0" prefHeight="15.0" prefWidth="355.0">
+                        <AnchorPane layoutY="240.0" prefHeight="27.0" prefWidth="440.0">
                            <children>
-                              <ImageView fx:id="web_site" fitHeight="26.0" fitWidth="162.0" layoutX="106.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="web_site" fitHeight="26.0" fitWidth="162.0" layoutX="145.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/launcher_res/main/ottomine.net/ottomine.net(NONE).png" />
                                  </image>
@@ -77,59 +108,43 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="232.0" prefWidth="476.0">
-         <children>
-            <AnchorPane prefHeight="50.0" prefWidth="476.0">
-               <children>
-                  <ImageView fx:id="bar_settings" fitHeight="28.0" fitWidth="28.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/launcher_res/topbar/settings.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="bar_close" fitHeight="25.0" fitWidth="22.0" layoutX="436.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/launcher_res/topbar/close.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="bar_under" fitHeight="6.0" fitWidth="28.0" layoutX="391.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resources/launcher_res/topbar/under.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <ImageView fitHeight="139.0" fitWidth="264.0" layoutX="106.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="266.0" fitWidth="253.0" layoutX="-126.0" layoutY="-80.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/launcher_res/main/ottominerptext.png" />
+                  <Image url="@../resources/launcher_res/main/bad_man.png" />
                </image>
             </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutY="574.0" prefHeight="76.0" prefWidth="476.0">
-         <children>
-            <ImageView fitHeight="63.0" fitWidth="65.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="266.0" fitWidth="253.0" layoutX="367.0" layoutY="-72.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/launcher_res/main/companylogo/wehoog_icon(OnHover).png" />
+                  <Image url="@../resources/launcher_res/main/yeniceri.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="company_logo" fitHeight="63.0" fitWidth="65.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/launcher_res/main/companylogo/wehoog_icon(NONE).png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="63.0" fitWidth="71.0" layoutX="405.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitWidth="90.0" layoutX="489.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../resources/launcher_res/main/discord/discord(OnHover).png" />
                </image>
             </ImageView>
-            <ImageView fx:id="discord_logo" fitHeight="63.0" fitWidth="71.0" layoutX="405.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="discord_logo" fitWidth="90.0" layoutX="489.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../resources/launcher_res/main/discord/discord(NONE).png" />
                </image>
             </ImageView>
-
-         </children></AnchorPane>
+            <ProgressIndicator fx:id="loading_launch" focusTraversable="false" layoutX="212.0" layoutY="293.0" opacity="0.0" prefHeight="50.0" prefWidth="49.0" />
+         </children>
+      </AnchorPane>
+      <ImageView fitWidth="60.0" layoutX="260.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/launcher_res/main/companylogo/wehoog_icon(OnHover).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="company_logo" fitWidth="60.0" layoutX="260.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/launcher_res/main/companylogo/wehoog_icon(NONE).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bar_settings" fitHeight="50.0" fitWidth="57.0" layoutX="24.0" layoutY="576.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/launcher_res/topbar/settings.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -27,7 +27,7 @@ public class LauncherMain extends Application{
     public static void startLauncherStage() throws IOException {
         Parent root2 = FXMLLoader.load(LauncherMain.class.getResource("launcher.fxml"));
         primaryStage2.setTitle("Ottomine Launcher");
-        primaryStage2.setScene(new Scene(root2, 475, 650));
+        primaryStage2.setScene(new Scene(root2, 1156, 650));
         primaryStage2.initStyle(StageStyle.TRANSPARENT);
         primaryStage2.show();
     }

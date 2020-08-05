@@ -4,14 +4,18 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import sun.security.provider.SecureRandom;
 import updater.NetworkControl;
 import updater.WriterData;
 
@@ -32,7 +36,6 @@ public class LauncherController implements Initializable {
     public ImageView remind_tick;
     public MediaView background_video;
     public ImageView remind_check;
-    public ImageView input_name;
     public ImageView play_button;
     public ImageView web_site;
     public ImageView bar_settings;
@@ -40,12 +43,19 @@ public class LauncherController implements Initializable {
     public ImageView bar_under;
     public ImageView company_logo;
     public ImageView discord_logo;
+    public Text warning_text;
+    public TextField input_name;
+    public ProgressIndicator loading_launch;
     List<String> version_path_list_natives = new ArrayList<>();
     private Media me;
     private MediaPlayer mp;
     private Thread thread;
     private JSONArray FilesArray;
     private Process proc = null;
+    public String SetuserName(){
+        String username = input_name.getText();
+        return username;
+    }
 
     public static void openBrowserUrl(String url) {
         if (Desktop.isDesktopSupported()) {
@@ -111,7 +121,7 @@ public class LauncherController implements Initializable {
                     background_video.setMediaPlayer(mp);
                     mp.play();
                     try {
-                        Thread.sleep(11000);
+                        Thread.sleep(10300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -131,64 +141,66 @@ public class LauncherController implements Initializable {
     @FXML
     public void launchGame() throws InterruptedException {
         if (thread != null) thread.join();
-        try {
-            String NativesDir = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "natives" + File.separator;
-
-            String OperatingSystemToUse = getOS();
-            String gameDirectory = new File(LauncherController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().toString();
-            String AssetsRoot = "assets";
-
-            int Xmx = 2048;
-            String JavaPath = "java";
-            String versionName = "1.12.2-LiteLoader1.12.2-1.12.2-forge1.12.2-14.23.5.2847";
-            String assetsIndexId = "1.12";
-
-            String VersionType = "release";
-            String GameAssets = "assets";
-            String AuthSession = "OFFLINE";
-
-            String[] HalfArgument = generateMinecraftArguments("Dantero", versionName, gameDirectory, AssetsRoot, assetsIndexId, "0", "0", "{}", "mojang", VersionType, GameAssets, AuthSession);
-            String MinecraftJar = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.jar";
-            String FullLibraryArgument = generateLibrariesArguments(OperatingSystemToUse) + getArgsDiv(OperatingSystemToUse) + MinecraftJar;
-            String mainClass = "net.minecraft.launchwrapper.Launch";
-
-            String[] cmds = {"-Xmx" + Xmx + "M", "-XX:+UseConcMarkSweepGC", "-XX:-UseAdaptiveSizePolicy", "-Xmn128M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
-
-            String[] javaPathArr = {JavaPath};
-            cmds = Stream.concat(Arrays.stream(javaPathArr), Arrays.stream(cmds)).toArray(String[]::new);
-
-            String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
-
-            try {
-                proc = Runtime.getRuntime().exec(finalArgs);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (proc != null) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                String line;
-                BufferedReader stdError = new BufferedReader(new
-                        InputStreamReader(proc.getErrorStream()));
+                loading_launch.setOpacity(1.0);
                 try {
-                    while ((line = reader.readLine()) != null) {
-                        System.out.println(line);
+                    String NativesDir = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "natives" + File.separator;
+
+                    String OperatingSystemToUse = getOS();
+                    String gameDirectory = new File(LauncherController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().toString();
+                    String AssetsRoot = "assets";
+
+                    int Xmx = 4096;
+                    String JavaPath = "java";
+                    String versionName = "1.12.2-LiteLoader1.12.2-1.12.2-forge1.12.2-14.23.5.2847";
+                    String assetsIndexId = "1.12";
+
+                    String VersionType = "release";
+                    String GameAssets = "assets";
+                    String AuthSession = "OFFLINE";
+
+                    String[] HalfArgument = generateMinecraftArguments(SetuserName(), versionName, gameDirectory, AssetsRoot, assetsIndexId, uuidgenerator(), "0", "{}", "mojang", VersionType, GameAssets, AuthSession);
+                    String MinecraftJar = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.jar";
+                    String FullLibraryArgument = generateLibrariesArguments(OperatingSystemToUse) + getArgsDiv(OperatingSystemToUse) + MinecraftJar;
+                    String mainClass = "net.minecraft.launchwrapper.Launch";
+
+                    String[] cmds = {"-Xmx" + Xmx + "M", "-XX:-UseAdaptiveSizePolicy", "-Xmn1024M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+
+                    String[] javaPathArr = {JavaPath};
+                    cmds = Stream.concat(Arrays.stream(javaPathArr), Arrays.stream(cmds)).toArray(String[]::new);
+
+                    String[] finalArgs = Stream.concat(Arrays.stream(cmds), Arrays.stream(HalfArgument)).toArray(String[]::new);
+
+                    try {
+                        proc = Runtime.getRuntime().exec(finalArgs);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    while ((line = stdError.readLine()) != null) {
-                        System.out.println(line);
+
+                    if (proc != null) {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                        String line;
+                        BufferedReader stdError = new BufferedReader(new
+                                InputStreamReader(proc.getErrorStream()));
+                        try {
+                            while ((line = reader.readLine()) != null) {
+                                System.out.println(line);
+                            }
+                            while ((line = stdError.readLine()) != null) {
+                                System.out.println(line);
+                            }
+                            proc.destroy();
+                            LauncherMain.getInstance().stop();
+                            Platform.exit();
+                            System.exit(0);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
                     }
-                    proc.destroy();
-                    LauncherMain.getInstance().stop();
-                    Platform.exit();
-                    System.exit(0);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.exit(0);
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     /***** Util Methods  *****/
@@ -551,6 +563,63 @@ public class LauncherController implements Initializable {
     }
 
     /***** FADES   *****/
+    public static String uuidgenerator() throws IOException, JSONException {
+        File uuidJsonFile = new File("uuid.json");
+        if (uuidJsonFile.exists()){
+            String line;
+            BufferedReader MyBR = new BufferedReader(new FileReader("uuid.json"));
+            StringBuilder MySB = new StringBuilder();
+            while ((line = MyBR.readLine()) != null)
+            {
+                MySB.append(line + '\n');
+            }
+            JSONObject obj = new JSONObject(MySB.toString());
+            String uuidjson = obj.getString("uuid");
+            return uuidjson;
+        }else{
+            String[] stringutils = {"1", "a", "2", "b", "3", "4", "5", "c", "6", "d", "7", "e", "8", "f", "9"};
+            String uuid;
+            Random irandom = new Random();
+            String array1 = new String();//8
+            String array2 = new String();
+            String array3 = new String();
+            String array4 = new String();
+            String array5 = new String();
+            for (int i = 0; i < 8; i++) {
+                int whichstr = irandom.nextInt(stringutils.length);
+                String gen = stringutils[whichstr];
+                array1 += gen;
+            }
+            for (int i = 0; i < 4; i++) {
+                int whichstr = irandom.nextInt(stringutils.length);
+                String gen = stringutils[whichstr];
+                array2 += gen;
+            }
+            for (int i = 0; i < 4; i++) {
+                int whichstr = irandom.nextInt(stringutils.length);
+                String gen = stringutils[whichstr];
+                array3 += gen;
+            }
+            for (int i = 0; i < 4; i++) {
+                int whichstr = irandom.nextInt(stringutils.length);
+                String gen = stringutils[whichstr];
+                array4 += gen;
+            }
+            for (int i = 0; i < 12; i++) {
+                int whichstr = irandom.nextInt(stringutils.length);
+                String gen = stringutils[whichstr];
+                array5 += gen;
+            }
+            uuid = array1 + "-" + array2 + "-" + array3 + "-" + array4 + "-" + array5;
+            JSONObject obj = new JSONObject();
+            obj.put("uuid",uuid);
+            FileWriter writer = new FileWriter("uuid.json");
+            writer.write(obj.toString());
+            writer.close();
+            return uuid;
+        }
+    }
+
 }
 
 
