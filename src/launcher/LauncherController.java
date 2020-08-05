@@ -90,8 +90,8 @@ public class LauncherController implements Initializable {
             thread.start();
         }
 
-        readJson_libraries_downloads_classifiers_natives_Y("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
-        readJson_twitch_natives("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
+        readJson_libraries_downloads_classifiers_natives_Y("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
+        readJson_twitch_natives("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
 
 
         discord_logo.setOnMouseReleased((event) -> {
@@ -111,25 +111,13 @@ public class LauncherController implements Initializable {
             }
         });
 
-        Thread loopVideo = new Thread() {
-            public void run() {
-                boolean loop = true;
-                do {
-                    String pathMedia = new File("src/resources/launcher_res/launcher_back.mp4").getAbsolutePath();
-                    me = new Media(new File(pathMedia).toURI().toString());
-                    mp = new MediaPlayer(me);
-                    background_video.setMediaPlayer(mp);
-                    mp.play();
-                    try {
-                        Thread.sleep(10300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } while (loop);
-            }
+        String pathMedia = new File("src/resources/launcher_res/launcher_back.mp4").getAbsolutePath();
+        me = new Media(new File(pathMedia).toURI().toString());
+        mp = new MediaPlayer(me);
+        background_video.setMediaPlayer(mp);
+        mp.setCycleCount(MediaPlayer.INDEFINITE);
+        mp.setAutoPlay(true);
 
-        };
-        loopVideo.start();
         fadeIn(discord_logo);
         fadeOut(discord_logo);
         fadeIn(company_logo);
@@ -140,10 +128,11 @@ public class LauncherController implements Initializable {
 
     @FXML
     public void launchGame() throws InterruptedException {
-        if (thread != null) thread.join();
+        Thread threadlauncher = new Thread() {
+            public void run() {
                 loading_launch.setOpacity(1.0);
                 try {
-                    String NativesDir = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "natives" + File.separator;
+                    String NativesDir = "versions" + File.separator + "ottomine" + File.separator + "natives" + File.separator;
 
                     String OperatingSystemToUse = getOS();
                     String gameDirectory = new File(LauncherController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().toString();
@@ -159,11 +148,11 @@ public class LauncherController implements Initializable {
                     String AuthSession = "OFFLINE";
 
                     String[] HalfArgument = generateMinecraftArguments(SetuserName(), versionName, gameDirectory, AssetsRoot, assetsIndexId, uuidgenerator(), "0", "{}", "mojang", VersionType, GameAssets, AuthSession);
-                    String MinecraftJar = "versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.jar";
+                    String MinecraftJar = "versions" + File.separator + "ottomine" + File.separator + "ottomine.jar";
                     String FullLibraryArgument = generateLibrariesArguments(OperatingSystemToUse) + getArgsDiv(OperatingSystemToUse) + MinecraftJar;
                     String mainClass = "net.minecraft.launchwrapper.Launch";
 
-                    String[] cmds = {"-Xmx" + Xmx + "M", "-XX:-UseAdaptiveSizePolicy", "-Xmn1024M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+                    String[] cmds = {"-Xmx" + Xmx + "M", "-XX:-UseAdaptiveSizePolicy", "-Xms2048M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
 
                     String[] javaPathArr = {JavaPath};
                     cmds = Stream.concat(Arrays.stream(javaPathArr), Arrays.stream(cmds)).toArray(String[]::new);
@@ -200,7 +189,16 @@ public class LauncherController implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                Thread.dumpStack();
+            }
+        };
+        if (SetuserName().length()<17 && SetuserName().length()>2) {
+            if (SetuserName().matches("^[a-zA-Z0-9_]+$")) {
+                threadlauncher.start();
+            } else {
+                fadeWarning();
+            }
+        }else{fadeWarning();}
     }
 
     /***** Util Methods  *****/
@@ -244,7 +242,7 @@ public class LauncherController implements Initializable {
 
     String[] generateMinecraftArguments(String auth_player_name, String version_name, String game_directory, String assets_root, String assets_index_name, String auth_uuid, String auth_access_token, String user_properties, String user_type, String version_type, String game_assets, String auth_session) {
 
-        String cmdArgs = readJson_minecraftArguments("versions" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847" + File.separator + "1.12.2-forge1.12.2-14.23.5.2847.json");
+        String cmdArgs = readJson_minecraftArguments("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
 
         cmdArgs = cmdArgs.replaceAll(" +", " ");
         String[] tempArgsSplit = cmdArgs.split(" ");
@@ -529,6 +527,12 @@ public class LauncherController implements Initializable {
     /***** Util Methods  *****/
 
     /***** FADES   *****/
+    public void fadeWarning(){
+        FadeTransition fadeWarn = new FadeTransition(Duration.seconds(3.5), warning_text);
+        fadeWarn.setFromValue(1);
+        fadeWarn.setToValue(0);
+        fadeWarn.play();
+    }
 
     public void fadeIn(ImageView current_fading) {
         current_fading.setOnMouseEntered((event) -> {

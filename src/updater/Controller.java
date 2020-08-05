@@ -59,8 +59,8 @@ public class Controller implements Initializable {
                         try {
                             downloading_file.setText($.getCurrentJSONpath());
                             download_status.setText($.getCurrentFileCount() + " / " + totalFilesCount);
-                            float progress_width = ((float) $.getCurrentByte() / (float) $.getTotalByte()) * 600;
-                            Progress_Black.setPrefWidth(600 - progress_width);
+                            float progress_width = ((float) $.getCurrentByte() / (float) $.getTotalByte()) * 465;
+                            Progress_Black.setPrefWidth(465 - progress_width);
                         } catch (ArithmeticException arEx) {
                             //aritmetik hata
                         }
