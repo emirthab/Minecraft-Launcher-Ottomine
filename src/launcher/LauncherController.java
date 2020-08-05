@@ -1,12 +1,17 @@
 package launcher;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -46,6 +51,31 @@ public class LauncherController implements Initializable {
     public Text warning_text;
     public TextField input_name;
     public ProgressIndicator loading_launch;
+//TODO başlangıçta açılacak olanları ayarla (SETTINGS)
+    //TODO geri gel tuşuna bastıktan sonra işlemler gerçekleştirilecek onları yap inputları yazdırcam
+    //*****  settings  *****\\
+    public String temple_graph = "";
+    public TextField xmx_input;
+    public TextField xms_input;
+    public AnchorPane settings_anchor;
+    public ImageView settings_back_icon;
+    public ImageView graph_veryhigh_back;
+    public ImageView graph_veryhigh_icon;
+    public ImageView graph_veryhigh_text;
+    public ImageView graph_high_back;
+    public ImageView graph_high_icon;
+    public ImageView graph_high_text;
+    public ImageView graph_medium_back;
+    public ImageView graph_medium_icon;
+    public ImageView graph_medium_text;
+    public ImageView graph_low_back;
+    public ImageView graph_low_icon;
+    public ImageView graph_low_text;
+    public ImageView graph_verylow_back;
+    public ImageView graph_verylow_icon;
+    public ImageView graph_verylow_text;
+    //*****  settings end  *****\\
+
     List<String> version_path_list_natives = new ArrayList<>();
     private Media me;
     private MediaPlayer mp;
@@ -89,10 +119,97 @@ public class LauncherController implements Initializable {
 
             thread.start();
         }
+        try {
+            if (GetLauncherOptions().getBoolean("remindme")){
+                String name = GetLauncherOptions().getString("name");
+                input_name.setText(name);
+                remind_tick.setOpacity(1.0);
+            }else{
+                remind_tick.setOpacity(0.0);
+            }
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+        //*****  SETTINGS  *****\\
+        try {
+            String jsonGraphSetting = GetLauncherOptions().getString("graphic_settings");
+            if (jsonGraphSetting.equals("veryhigh")){
+            temple_graph = "veryhigh";
+            graph_select_veryhigh();
+            }else
+            if (jsonGraphSetting.equals("high")){
+                temple_graph = "high";
+                graph_select_high();
+            }else
+            if (jsonGraphSetting.equals("low")){
+                temple_graph = "low";
+                graph_select_low();
+            }else
+            if (jsonGraphSetting.equals("verylow")){
+                temple_graph = "verylow";
+                graph_select_verylow();
+            }else{
+                    temple_graph = "medium";
+                    graph_select_medium();
+            }
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            xmx_input.setText(String.valueOf(GetLauncherOptions().getInt("xmx")));
+            xms_input.setText(String.valueOf(GetLauncherOptions().getInt("xms")));
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
 
+        graph_veryhigh_text.setOnMouseReleased((event) -> {temple_graph = "veryhigh";graph_select_veryhigh();});
+        graph_veryhigh_icon.setOnMouseReleased((event) -> {temple_graph = "veryhigh";graph_select_veryhigh();});
+        graph_veryhigh_back.setOnMouseReleased((event) -> {temple_graph = "veryhigh";graph_select_veryhigh();});
+        graph_high_back.setOnMouseReleased((event) -> {temple_graph = "high";graph_select_high();});
+        graph_high_icon.setOnMouseReleased((event) -> {temple_graph = "high";graph_select_high();});
+        graph_high_text.setOnMouseReleased((event) -> {temple_graph = "high";graph_select_high();});
+        graph_medium_back.setOnMouseReleased((event) -> {temple_graph = "medium";graph_select_medium();});
+        graph_medium_text.setOnMouseReleased((event) -> {temple_graph = "medium";graph_select_medium();});
+        graph_medium_icon.setOnMouseReleased((event) -> {temple_graph = "medium";graph_select_medium();});
+        graph_low_back.setOnMouseReleased((event) -> {temple_graph = "low";graph_select_low();});
+        graph_low_icon.setOnMouseReleased((event) -> {temple_graph = "low";graph_select_low();});
+        graph_low_text.setOnMouseReleased((event) -> {temple_graph = "low";graph_select_low();});
+        graph_verylow_back.setOnMouseReleased((event) -> {temple_graph = "verylow";graph_select_verylow();});
+        graph_verylow_text.setOnMouseReleased((event) -> {temple_graph = "verylow";graph_select_verylow();});
+        graph_verylow_icon.setOnMouseReleased((event) -> {temple_graph = "verylow";graph_select_verylow();});
+
+
+        bar_settings.setOnMouseReleased((event) -> {
+            try {
+                xmx_input.setText(String.valueOf(GetLauncherOptions().getInt("xmx")));
+                xms_input.setText(String.valueOf(GetLauncherOptions().getInt("xms")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            settings_anchor.setVisible(true);
+            fadeOutSettingsAnchor();
+        });
+        settings_back_icon.setOnMouseReleased((event) -> {
+            String inp_xmx = xmx_input.getText();
+            String inp_xms = xms_input.getText();
+            try {
+                if (inp_xmx.length()<6 && inp_xmx.length()>2 && inp_xms.length()<6 && inp_xms.length()>2 ) {
+                    if (inp_xmx.matches("^[0-9]+$") && inp_xms.matches("^[0-9]+$")) {
+                        SetLauncherOption_settings(temple_graph,Integer.parseInt(inp_xmx),Integer.parseInt(inp_xms));
+                    }else{System.out.println("değerlerde yanlış karakter");}
+                }else{System.out.println("değerlerde yanlış uzunluk");}
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            fadeInSettingsAnchor();
+        });
+
+        //*****  SETTINGS END  *****\\
         readJson_libraries_downloads_classifiers_natives_Y("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
         readJson_twitch_natives("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
-
 
         discord_logo.setOnMouseReleased((event) -> {
             openBrowserUrl("https://discord.gg/U2MkdfC");
@@ -104,10 +221,18 @@ public class LauncherController implements Initializable {
             openBrowserUrl("https://www.ottomine.net");
         });
         remind_tick.setOnMouseReleased((event) -> {
-            if (remind_tick.getOpacity() == 1.0) {
-                remind_tick.setOpacity(0.0);
-            } else {
-                remind_tick.setOpacity(1.0);
+            try {
+                if (GetLauncherOptions().getBoolean("remindme")) {
+                    remind_tick.setOpacity(0);
+                    SetLauncherOption_remindme(false);
+                } else {
+                    remind_tick.setOpacity(1.0);
+                    SetLauncherOption_remindme(true);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
@@ -127,7 +252,7 @@ public class LauncherController implements Initializable {
     }//end of initialize
 
     @FXML
-    public void launchGame() throws InterruptedException {
+    public void launchGame() throws InterruptedException, IOException, JSONException {
         Thread threadlauncher = new Thread() {
             public void run() {
                 loading_launch.setOpacity(1.0);
@@ -138,8 +263,9 @@ public class LauncherController implements Initializable {
                     String gameDirectory = new File(LauncherController.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().toString();
                     String AssetsRoot = "assets";
 
-                    int Xmx = 4096;
-                    String JavaPath = "java";
+                    int Xmx = GetLauncherOptions().getInt("xmx");
+                    int Xms = GetLauncherOptions().getInt("xms");
+                    String JavaPath = GetLauncherOptions().getString("java_path");
                     String versionName = "1.12.2-LiteLoader1.12.2-1.12.2-forge1.12.2-14.23.5.2847";
                     String assetsIndexId = "1.12";
 
@@ -152,7 +278,7 @@ public class LauncherController implements Initializable {
                     String FullLibraryArgument = generateLibrariesArguments(OperatingSystemToUse) + getArgsDiv(OperatingSystemToUse) + MinecraftJar;
                     String mainClass = "net.minecraft.launchwrapper.Launch";
 
-                    String[] cmds = {"-Xmx" + Xmx + "M", "-XX:-UseAdaptiveSizePolicy", "-Xms2048M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
+                    String[] cmds = {"-Xmx" + Xmx + "M", "-XX:-UseAdaptiveSizePolicy", "-Xms" + Xms + "M", "-Djava.library.path=" + NativesDir, "-cp", FullLibraryArgument, mainClass};
 
                     String[] javaPathArr = {JavaPath};
                     cmds = Stream.concat(Arrays.stream(javaPathArr), Arrays.stream(cmds)).toArray(String[]::new);
@@ -194,6 +320,7 @@ public class LauncherController implements Initializable {
         };
         if (SetuserName().length()<17 && SetuserName().length()>2) {
             if (SetuserName().matches("^[a-zA-Z0-9_]+$")) {
+                SetLauncherOption_name(SetuserName());
                 threadlauncher.start();
             } else {
                 fadeWarning();
@@ -236,7 +363,6 @@ public class LauncherController implements Initializable {
         if (OS.equals("Mac")) {
             return (":");
         }
-
         return "N/A";
     }
 
@@ -527,6 +653,24 @@ public class LauncherController implements Initializable {
     /***** Util Methods  *****/
 
     /***** FADES   *****/
+    public void fadeInSettingsAnchor(){
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.5), settings_anchor);
+        fadeIn.setFromValue(1.0);
+        fadeIn.setToValue(0.0);
+        fadeIn.play();
+        fadeIn.onFinishedProperty().set(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                settings_anchor.setVisible(false);
+            }
+        });
+    }
+    public void fadeOutSettingsAnchor(){
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), settings_anchor);
+        fadeOut.setFromValue(0.0);
+        fadeOut.setToValue(1.0);
+        fadeOut.play();
+    }
     public void fadeWarning(){
         FadeTransition fadeWarn = new FadeTransition(Duration.seconds(3.5), warning_text);
         fadeWarn.setFromValue(1);
@@ -567,6 +711,58 @@ public class LauncherController implements Initializable {
     }
 
     /***** FADES   *****/
+    public void SetLauncherOption_settings(String graph,int xmx,int xms) throws IOException, JSONException {
+        JSONObject obj = GetLauncherOptions();
+        obj.put("graphic_settings",graph);
+        obj.put("xmx",xmx);
+        obj.put("xms",xms);
+        FileWriter writer = new FileWriter("launcher-options.json");
+        writer.write(obj.toString());
+        writer.close();
+    }
+    public void SetLauncherOption_name(String value) throws IOException, JSONException {
+        JSONObject obj = GetLauncherOptions();
+        boolean rmndme = obj.getBoolean("remindme");
+        if (rmndme){
+            obj.put("name",value);
+            FileWriter writer = new FileWriter("launcher-options.json");
+            writer.write(obj.toString());
+            writer.close();
+        }
+    }
+    public void SetLauncherOption_remindme(boolean value) throws IOException, JSONException {
+        JSONObject obj = GetLauncherOptions();
+        obj.put("remindme",value);
+        FileWriter writer = new FileWriter("launcher-options.json");
+        writer.write(obj.toString());
+        writer.close();
+    }
+    public static JSONObject GetLauncherOptions() throws JSONException, IOException {
+        File option_path = new File("launcher-options.json");
+        if (option_path.exists()){
+            String line;
+            BufferedReader MyBR = new BufferedReader(new FileReader("launcher-options.json"));
+            StringBuilder MySB = new StringBuilder();
+            while ((line = MyBR.readLine()) != null)
+            {
+                MySB.append(line).append('\n');
+            }
+            JSONObject obj = new JSONObject(MySB.toString());
+            return obj;
+        }else{
+            JSONObject obj = new JSONObject();
+            obj.put("remindme",false);
+            obj.put("name","Bir Kullanıcı Adı Giriniz...");
+            obj.put("graphic_settings","medium");
+            obj.put("java_path","java");
+            obj.put("xmx",3000);
+            obj.put("xms",3000);
+            FileWriter writer = new FileWriter("launcher-options.json");
+            writer.write(obj.toString());
+            writer.close();
+            return obj;
+        }
+    }
     public static String uuidgenerator() throws IOException, JSONException {
         File uuidJsonFile = new File("uuid.json");
         if (uuidJsonFile.exists()){
@@ -622,6 +818,41 @@ public class LauncherController implements Initializable {
             writer.close();
             return uuid;
         }
+    }
+    public void graph_select_veryhigh(){
+        graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
+        graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_low_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+    }
+    public void graph_select_high(){
+        graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
+        graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_low_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+    }
+    public void graph_select_medium(){
+        graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
+        graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_low_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+    }
+    public void graph_select_low(){
+        graph_low_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
+        graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+    }
+    public void graph_select_verylow(){
+        graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
+        graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_low_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+        graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
     }
 
 }
