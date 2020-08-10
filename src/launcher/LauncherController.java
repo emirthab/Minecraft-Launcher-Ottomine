@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,12 +17,15 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sun.security.provider.SecureRandom;
 import updater.NetworkControl;
+import updater.RunnerScript;
+import updater.UpdaterMain;
 import updater.WriterData;
 
 import javax.script.Invocable;
@@ -29,11 +33,14 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.*;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Stream;
+
+import static updater.DownloaderScript.CurrentJSONpath;
 
 public class LauncherController implements Initializable {
     private final List<String> libraries = new ArrayList<>();
@@ -45,14 +52,11 @@ public class LauncherController implements Initializable {
     public ImageView web_site;
     public ImageView bar_settings;
     public ImageView bar_close;
-    public ImageView bar_under;
     public ImageView company_logo;
     public ImageView discord_logo;
     public Text warning_text;
     public TextField input_name;
     public ProgressIndicator loading_launch;
-//TODO başlangıçta açılacak olanları ayarla (SETTINGS)
-    //TODO geri gel tuşuna bastıktan sonra işlemler gerçekleştirilecek onları yap inputları yazdırcam
     //*****  settings  *****\\
     public String temple_graph = "";
     public TextField xmx_input;
@@ -74,6 +78,7 @@ public class LauncherController implements Initializable {
     public ImageView graph_verylow_back;
     public ImageView graph_verylow_icon;
     public ImageView graph_verylow_text;
+    public ImageView graph_current_image;
     //*****  settings end  *****\\
 
     List<String> version_path_list_natives = new ArrayList<>();
@@ -203,14 +208,15 @@ public class LauncherController implements Initializable {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-
             fadeInSettingsAnchor();
         });
 
         //*****  SETTINGS END  *****\\
         readJson_libraries_downloads_classifiers_natives_Y("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
         readJson_twitch_natives("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
-
+        bar_close.setOnMouseReleased((event) -> {
+            LauncherMain.stopLauncherStage();
+        });
         discord_logo.setOnMouseReleased((event) -> {
             openBrowserUrl("https://discord.gg/U2MkdfC");
         });
@@ -257,6 +263,16 @@ public class LauncherController implements Initializable {
             public void run() {
                 loading_launch.setOpacity(1.0);
                 try {
+                    RunnerScript.runNetControl();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    get_graphOptions(temple_graph);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
                     String NativesDir = "versions" + File.separator + "ottomine" + File.separator + "natives" + File.separator;
 
                     String OperatingSystemToUse = getOS();
@@ -290,12 +306,18 @@ public class LauncherController implements Initializable {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
+//TODO BURAYA VERİTABANI İŞLEMLERİ GELECEK(GİRİŞ YAP ve kullanıcıyı geçici veritabanına yazdır)
                     if (proc != null) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                         String line;
                         BufferedReader stdError = new BufferedReader(new
                                 InputStreamReader(proc.getErrorStream()));
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                    LauncherMain.stopLauncherStage();//launcheri kapat
+                            }
+                        });
                         try {
                             while ((line = reader.readLine()) != null) {
                                 System.out.println(line);
@@ -315,7 +337,7 @@ public class LauncherController implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Thread.dumpStack();
+
             }
         };
         if (SetuserName().length()<17 && SetuserName().length()>2) {
@@ -820,6 +842,7 @@ public class LauncherController implements Initializable {
         }
     }
     public void graph_select_veryhigh(){
+        graph_current_image.setImage(new Image("resources/launcher_res/settings/graphs_res/veryhigh.png"));
         graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
         graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
         graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
@@ -827,6 +850,7 @@ public class LauncherController implements Initializable {
         graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
     }
     public void graph_select_high(){
+        graph_current_image.setImage(new Image("resources/launcher_res/settings/graphs_res/high.png"));
         graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
         graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
         graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
@@ -834,6 +858,7 @@ public class LauncherController implements Initializable {
         graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
     }
     public void graph_select_medium(){
+        graph_current_image.setImage(new Image("resources/launcher_res/settings/graphs_res/medium.png"));
         graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
         graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
         graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
@@ -841,6 +866,7 @@ public class LauncherController implements Initializable {
         graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
     }
     public void graph_select_low(){
+        graph_current_image.setImage(new Image("resources/launcher_res/settings/graphs_res/low.png"));
         graph_low_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
         graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
         graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
@@ -848,11 +874,49 @@ public class LauncherController implements Initializable {
         graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
     }
     public void graph_select_verylow(){
+        graph_current_image.setImage(new Image("resources/launcher_res/settings/graphs_res/verylow.png"));
         graph_verylow_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/Current.png"));
         graph_high_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
         graph_medium_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
         graph_low_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
         graph_veryhigh_back.setImage(new Image("resources/launcher_res/settings/graphic/backs/None.png"));
+    }
+
+    public void get_graphOptions(String graph_value) throws InterruptedException {
+        RunnerScript.runNetControl();
+        String dirWeb = "https://ottomine.net/Launcher/graph_options/" + graph_value;
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(dirWeb + "/options.txt").openStream());
+             FileOutputStream fileOS = new FileOutputStream("options.txt")) {
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RunnerScript.runNetControl();
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(dirWeb + "/optionsof.txt").openStream());
+             FileOutputStream fileOS = new FileOutputStream("optionsof.txt")) {
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RunnerScript.runNetControl();
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(dirWeb + "/optionsshaders.txt").openStream());
+             FileOutputStream fileOS = new FileOutputStream("optionsshaders.txt")) {
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

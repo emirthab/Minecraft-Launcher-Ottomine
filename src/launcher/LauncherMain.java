@@ -28,11 +28,17 @@ public class LauncherMain extends Application{
         Parent root2 = FXMLLoader.load(LauncherMain.class.getResource("launcher.fxml"));
         primaryStage2.setTitle("Ottomine Launcher");
         primaryStage2.setScene(new Scene(root2, 1156, 650));
-        primaryStage2.initStyle(StageStyle.TRANSPARENT);
+        primaryStage2.initStyle(StageStyle.UNDECORATED);
         primaryStage2.show();
     }
 
     public static LauncherMain getInstance() {
         return instance;
+    }
+    public static void stopLauncherStage(){
+        primaryStage2.close();
+    }
+    public static void minimize(){
+        primaryStage2.setIconified(true);
     }
 }

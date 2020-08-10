@@ -22,15 +22,13 @@
                   <Image url="@../resources/launcher_res/main/ottominerptext.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="bar_close" fitHeight="37.0" fitWidth="37.0" layoutX="1096.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bar_close" fitHeight="36.0" fitWidth="37.0" layoutX="1106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../resources/launcher_res/topbar/close.png" />
                </image>
-            </ImageView>
-            <ImageView fx:id="bar_under" fitHeight="6.0" fitWidth="37.0" layoutX="1025.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/launcher_res/topbar/under.png" />
-               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fitHeight="218.0" fitWidth="234.0" layoutX="469.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -352,6 +350,11 @@
                   </ImageView>
                </children>
             </Pane>
+            <ImageView fx:id="graph_current_image" fitHeight="364.0" fitWidth="650.0" layoutX="420.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/launcher_res/settings/graphs_res/medium.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>
