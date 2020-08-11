@@ -15,19 +15,18 @@ public class UpdaterMain extends Application{
     private static final UpdaterMain instance = new UpdaterMain();
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(UpdaterMain.class.getResource("updater_scene.fxml"));
-        primaryStage.setTitle("Ottomine Launcher");
-        primaryStage.setScene(new Scene(root, 800, 350, Color.TRANSPARENT));
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.show();
+    public void start(Stage primaryStage){
     }
     public static void main(String[] args){
         RunnerScript.threader();
         launch(args);
     }
-    public static void stopUpdaterStage(){
-        primaryStage.close();
+    public static void startUpdaterStage() throws IOException {
+        Parent root = FXMLLoader.load(UpdaterMain.class.getResource("updater_scene.fxml"));
+        primaryStage.setTitle("Ottomine Launcher");
+        primaryStage.setScene(new Scene(root, 800, 350, Color.TRANSPARENT));
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        primaryStage.show();
     }
     public static void StartLauncherStage() throws IOException {
         Parent root2 = FXMLLoader.load(UpdaterMain.class.getResource("launcher.fxml"));
@@ -41,5 +40,8 @@ public class UpdaterMain extends Application{
     }
     public static void stopLauncherStage(){
         primaryStage2.close();
+    }
+    public static void stopUpdaterStage(){
+        primaryStage.close();
     }
 }

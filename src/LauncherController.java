@@ -102,6 +102,7 @@ public class LauncherController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        UpdaterMain.stopUpdaterStage();
         if (WriterData.libraries.isEmpty()) {
             thread = new Thread(() -> {
                 try {
@@ -206,6 +207,8 @@ public class LauncherController implements Initializable {
         readJson_twitch_natives("versions" + File.separator + "ottomine" + File.separator + "ottomine.json");
         bar_close.setOnMouseReleased((event) -> {
             UpdaterMain.stopLauncherStage();
+            Platform.exit();
+            System.exit(0);
         });
         discord_logo.setOnMouseReleased((event) -> {
             openBrowserUrl("https://discord.gg/U2MkdfC");
@@ -307,6 +310,7 @@ public class LauncherController implements Initializable {
                                     UpdaterMain.stopLauncherStage();//launcheri kapat
                             }
                         });
+                        Platform.exit();
                         try {
                             while ((line = reader.readLine()) != null) {
                                 System.out.println(line);

@@ -30,6 +30,16 @@ public class RunnerScript extends Thread {
     }
 
     public static void Starter() throws InterruptedException, IOException, JSONException {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UpdaterMain.startUpdaterStage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         RunnerScript Runner = new RunnerScript();
         TextStatus = 1;
         Runner.runNetControl();
@@ -59,9 +69,7 @@ public class RunnerScript extends Thread {
                             public void run() {
                                 try {
                                     UpdaterMain.StartLauncherStage();
-                                    Thread.sleep(500);
-                                    UpdaterMain.stopUpdaterStage();
-                                } catch (IOException | InterruptedException e) {
+                                } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
