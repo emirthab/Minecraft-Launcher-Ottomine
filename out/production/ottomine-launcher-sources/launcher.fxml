@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LauncherController">
+   <children>
+      <MediaView fx:id="background_video" fitHeight="650.0" fitWidth="1156.0" nodeOrientation="INHERIT" />
+      <AnchorPane prefHeight="186.0" prefWidth="1156.0">
+         <children>
+            <AnchorPane prefHeight="50.0" prefWidth="476.0" />
+            <ImageView fitHeight="159.0" fitWidth="355.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/main/ottominerptext.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="bar_close" fitHeight="36.0" fitWidth="37.0" layoutX="1106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/topbar/close.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fitHeight="218.0" fitWidth="234.0" layoutX="469.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/main/ottomine-logo.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="warning_text" fill="RED" layoutX="321.0" layoutY="30.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kullanıcı adınız 3-16 karakter uzunluğunda,sadece harf,sayı ve '_' işaretinden oluşmak zorundadır" textAlignment="CENTER" wrappingWidth="513.2060546875">
+               <font>
+                  <Font name="Arial Black" size="17.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="340.0" layoutY="291.0" prefHeight="266.0" prefWidth="476.0">
+         <children>
+            <AnchorPane layoutX="61.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane layoutX="-42.0" layoutY="-22.0" prefHeight="328.0" prefWidth="378.0">
+                     <children>
+                        <ImageView fitHeight="328.0" fitWidth="440.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="resources/launcher_res/main/back_flag.png" />
+                           </image>
+                        </ImageView>
+                        <AnchorPane layoutY="108.0" prefHeight="37.0" prefWidth="440.0">
+                           <children>
+                              <ImageView fitHeight="26.0" fitWidth="182.0" layoutX="146.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="resources/launcher_res/main/remind/remindname.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="remind_check" fitHeight="26.0" fitWidth="22.0" layoutX="98.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="resources/launcher_res/main/remind/remind_block.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="remind_tick" fitHeight="22.0" fitWidth="15.0" layoutX="102.0" layoutY="12.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="resources/launcher_res/main/remind/remind_block_point.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutY="51.0" prefHeight="51.0" prefWidth="440.0">
+                           <children>
+                              <ImageView fitHeight="44.0" fitWidth="253.0" layoutX="94.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="resources/launcher_res/main/input/input_back.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="input_name" editable="true" focusTraversable="false" layoutX="102.0" layoutY="21.0" style="-fx-text-inner-color: #2b0e01; -fx-background-color: transparent;" text="Kullanıcı adı giriniz...">
+                                 <font>
+                                    <Font name="Metamorphous" size="13.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutY="164.0" prefHeight="63.0" prefWidth="440.0">
+                           <children>
+                              <ImageView fx:id="play_button" fitHeight="63.0" fitWidth="295.0" layoutX="73.0" layoutY="4.0" onMouseReleased="#launchGame" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="resources/launcher_res/main/play.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutY="240.0" prefHeight="27.0" prefWidth="440.0">
+                           <children>
+                              <ImageView fx:id="web_site" fitHeight="26.0" fitWidth="162.0" layoutX="145.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="resources/launcher_res/main/ottomine.net/ottomine.net(NONE).png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="266.0" fitWidth="253.0" layoutX="-126.0" layoutY="-80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/main/bad_man.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="266.0" fitWidth="253.0" layoutX="367.0" layoutY="-72.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/main/yeniceri.png" />
+               </image>
+            </ImageView>
+            <ImageView fitWidth="90.0" layoutX="489.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/main/discord/discord(OnHover).png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="discord_logo" fitWidth="90.0" layoutX="489.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/main/discord/discord(NONE).png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ProgressIndicator fx:id="loading_launch" focusTraversable="false" layoutX="212.0" layoutY="293.0" opacity="0.0" prefHeight="50.0" prefWidth="49.0" />
+         </children>
+      </AnchorPane>
+      <ImageView fitWidth="60.0" layoutX="260.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="resources/launcher_res/main/companylogo/wehoog_icon(OnHover).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="company_logo" fitWidth="60.0" layoutX="260.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="resources/launcher_res/main/companylogo/wehoog_icon(NONE).png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="bar_settings" fitHeight="50.0" fitWidth="57.0" layoutX="24.0" layoutY="576.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="resources/launcher_res/topbar/settings.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <AnchorPane fx:id="settings_anchor" opacity="0.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <children>
+            <Pane opacity="0.95" prefHeight="650.0" prefWidth="1156.0" style="-fx-background-color: #0c0703;">
+               <children>
+                  <ImageView fitHeight="43.0" fitWidth="167.0" layoutX="501.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/Ayarlar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="settings_back_icon" fitHeight="63.0" fitWidth="49.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/back_icon.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="129.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/Grafik_ayarları_text.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="graph_veryhigh_back" fitHeight="48.0" fitWidth="246.0" layoutX="116.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/backs/None.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_veryhigh_icon" fitHeight="83.0" fitWidth="60.0" layoutX="130.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/icons/diamond_ico.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_veryhigh_text" fitHeight="25.0" fitWidth="99.0" layoutX="192.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/texts/Cok_Yuksek_text.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_high_back" fitHeight="48.0" fitWidth="246.0" layoutX="116.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/backs/None.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_high_icon" fitHeight="83.0" fitWidth="60.0" layoutX="130.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/icons/emerald_ico.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_high_text" fitHeight="22.0" fitWidth="67.0" layoutX="206.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/texts/Yuksek_text.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_medium_back" fitHeight="48.0" fitWidth="246.0" layoutX="116.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/backs/None.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_medium_icon" fitHeight="83.0" fitWidth="60.0" layoutX="130.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/icons/gold_ico.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_medium_text" fitHeight="19.0" fitWidth="49.0" layoutX="219.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/texts/Orta_text.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_low_back" fitHeight="48.0" fitWidth="246.0" layoutX="116.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/backs/None.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_low_icon" fitHeight="83.0" fitWidth="60.0" layoutX="130.0" layoutY="321.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/icons/iron_ico.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_low_text" fitHeight="26.0" fitWidth="55.0" layoutX="213.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/texts/Dusuk_text.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_verylow_back" fitHeight="48.0" fitWidth="246.0" layoutX="116.0" layoutY="392.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/backs/None.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_verylow_icon" fitHeight="83.0" fitWidth="60.0" layoutX="130.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/icons/wood_ico.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="graph_verylow_text" fitHeight="22.0" fitWidth="90.0" layoutX="198.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/texts/Cok_Dusuk_text.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="22.0" fitWidth="174.0" layoutX="158.0" layoutY="481.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/ram/Ram_Miktarı.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="154.0" layoutX="152.0" layoutY="518.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/ram/input.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="154.0" layoutX="152.0" layoutY="558.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/ram/input.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="WHITE" layoutX="103.0" layoutY="537.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Xmx">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="103.0" layoutY="577.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Xms">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="18.0" fitWidth="37.0" layoutX="259.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/ram/MB.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="18.0" fitWidth="37.0" layoutX="259.0" layoutY="564.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/ram/MB.png" />
+                     </image>
+                  </ImageView>
+                  <TextField focusTraversable="false" layoutX="156.0" layoutY="519.0" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: transparant;" text="3072" fx:id="xmx_input" />
+                  <TextField focusTraversable="false" layoutX="156.0" layoutY="559.0" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: transparant;" text="3072" fx:id="xms_input" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="119.0" layoutY="596.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="resources/launcher_res/settings/graphic/ram/donttouch.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <ImageView fx:id="graph_current_image" fitHeight="364.0" fitWidth="650.0" layoutX="420.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="resources/launcher_res/settings/graphs_res/medium.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
