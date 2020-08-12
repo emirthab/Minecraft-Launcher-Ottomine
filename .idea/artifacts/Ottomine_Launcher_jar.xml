@@ -4,6 +4,7 @@
     <root id="archive" name="Ottomine-Launcher.jar">
       <element id="module-output" name="Ottomine-Launcher" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/java-json.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/java-discord-rpc-2.0.2-all.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
