@@ -1,12 +1,39 @@
 
+import club.minnced.discord.rpc.DiscordEventHandlers;
+import club.minnced.discord.rpc.DiscordRPC;
+import club.minnced.discord.rpc.DiscordRichPresence;
 import javafx.application.Platform;
 import org.json.JSONException;
-
 import java.io.IOException;
 
 public class RunnerScript extends Thread {
     public int getTextStatus() {return TextStatus;}
     private static int TextStatus;
+
+
+        public static void DCrichPresence() {
+            DiscordRPC lib = DiscordRPC.INSTANCE;
+            String applicationId = "723090896878436412";
+            String steamId = "";
+            DiscordEventHandlers handlers = new DiscordEventHandlers();
+            handlers.ready = (user) -> System.out.println("Ready!");
+            lib.Discord_Initialize(applicationId, handlers, true, steamId);
+            DiscordRichPresence presence = new DiscordRichPresence();
+            presence.startTimestamp = System.currentTimeMillis() / 1000; // epoch second
+            presence.details = "ottomine.net";
+            presence.state = "Tarih yeniden yazılıyor...";
+            presence.largeImageKey = "otto-logo2";
+            lib.Discord_UpdatePresence(presence);
+            // in a worker thread
+            new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted()) {
+                    lib.Discord_RunCallbacks();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ignored) {}
+                }
+            }, "RPC-Callback-Handler").start();
+        }
     public static void runNetControl() throws InterruptedException {
         do{
             NetworkControl.NetIsAvailable();

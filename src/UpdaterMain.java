@@ -18,6 +18,7 @@ public class UpdaterMain extends Application{
     public void start(Stage primaryStage){
     }
     public static void main(String[] args){
+        RunnerScript.DCrichPresence();
         RunnerScript.threader();
         launch(args);
     }

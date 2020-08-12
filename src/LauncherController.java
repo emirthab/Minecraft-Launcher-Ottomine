@@ -310,6 +310,7 @@ public class LauncherController implements Initializable {
                                     UpdaterMain.stopLauncherStage();//launcheri kapat
                             }
                         });
+                        //Thread.currentThread().interrupt();
                         Platform.exit();
                         try {
                             while ((line = reader.readLine()) != null) {

@@ -1,5 +1,6 @@
 
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -65,6 +66,7 @@ public class Controller implements Initializable {
                     }
 
                 }while(Rs.getTextStatus() == 4);
+                //Thread.currentThread().interrupt();
             }
 
         };
