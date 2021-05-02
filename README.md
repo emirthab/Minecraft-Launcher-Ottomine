@@ -10,6 +10,11 @@ Ottomine roleplay mode is an audio role-playing game mode that takes the Ottoman
 - It adds minecraft mods as a library and launches minecraft.
 - In the graphics settings tab, it places the files from the same website url on every launch. The currently selected graphics settings are the exact file in the url.
 - You can change the java arguments for initialization in graphic settings. (xmx, xms)
+- With the remember me option, you can register your name at the next opening.
+
+- NOTE: All settings launcher is primarily in the file launcher-options.json.
+ 
+- NOTE: Launcher can also update itself. This system is made with the simple version system. If the version text in the json file in the internet urls does not match, the launcher jar file downloads itself from the internet and restarts.
 
 ## Media
 
