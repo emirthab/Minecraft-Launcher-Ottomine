@@ -12,6 +12,9 @@ Ottomine roleplay mode is an audio role-playing game mode that takes the Ottoman
 - You can change the java arguments for initialization in graphic settings. (xmx, xms)
 
 
+
+
+
 ![alt text](https://i.resmim.net/i/Ekran-Resmi-2021-05-03-01.48.16.png)
 ![alt text](https://i.resmim.net/i/Ekran-Resmi-2021-05-03-01.48.24.png)
 ![alt text](https://i.resmim.net/i/Ekran-Resmi-2021-05-03-01.47.55.png)
