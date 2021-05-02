@@ -16,6 +16,10 @@ Ottomine roleplay mode is an audio role-playing game mode that takes the Ottoman
  
 - NOTE: Launcher can also update itself. This system is made with the simple version system. If the version text in the json file in the internet urls does not match, the launcher jar file downloads itself from the internet and restarts.
 
+```java
+public void DownloadOperation() throws IOException, InterruptedException {
+        String dirWeb = "https://ottomine.net/ottomine-files/";
+```
 ## Media
 
 
