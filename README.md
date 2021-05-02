@@ -22,16 +22,62 @@ On DownloaderScript.java
 
 public void DownloadOperation() throws IOException, InterruptedException {
         String dirWeb = "https://ottomine.net/ottomine-files/";
+
 ```
 
+
 ## Change files database json
+
 ```java
 On WriterData.java
 
  public static void GetJsonWeb() throws JSONException, IOException, InterruptedException {
         String JSON_string;
         URL JSONurl = new URL("https://www.ottomine.net/ottomine-files/FilesArray.json");
+        
+On LauncherController.java
+
+void GetJsonWeb() throws JSONException, IOException, InterruptedException {
+        String JSON_string;
+        URL JSONurl = new URL("https://www.ottomine.net/ottomine-files/FilesArray.json");
 ```
+
+
+## Change launcher version json url
+```java
+On WriterData.java
+
+public static boolean launcherIsUpToDate() throws IOException, InterruptedException, JSONException {
+        URL versionJSONwebURL = new URL("https://www.ottomine.net/Launcher/launcher-version.json");
+```
+
+## Change graphic settings file location
+
+```java
+On LauncherController.java
+
+public void get_graphOptions(String graph_value) throws InterruptedException {
+       RunnerScript.runNetControl();
+       String dirWeb = "https://ottomine.net/Launcher/graph_options/" + graph_value;
+```
+
+## Change interface icon url path
+```java
+On LauncherController.java
+
+});
+        discord_logo.setOnMouseReleased((event) -> {
+            openBrowserUrl("https://discord.gg/U2MkdfC");
+        });
+        company_logo.setOnMouseReleased((event) -> {
+            openBrowserUrl("https://www.wehoog.com");
+        });
+        web_site.setOnMouseReleased((event) -> {
+            openBrowserUrl("https://www.ottomine.net");
+        });
+```
+
+
 ## Media
 
 
